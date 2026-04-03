@@ -1,0 +1,20 @@
+# Environment secrets — never commit this
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+env/
+venv/
+.venv/
+
+# Chroma vector DB
+chroma_db/
+
+# Uploads
+uploads/
+
+# IDE
+.vscode/
+.idea/
