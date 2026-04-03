@@ -12,6 +12,11 @@ from analytics import log_message, get_analytics, detect_escalation
 
 load_dotenv()
 
+# Ensure uploads directory exists
+UPLOAD_DIR = "uploads"
+if not os.path.exists(UPLOAD_DIR):
+    os.makedirs(UPLOAD_DIR)
+    print(f"Created directory: {UPLOAD_DIR}")
 
 app = FastAPI(title="Whisper API")
 app.add_middleware(
@@ -25,7 +30,14 @@ app.add_middleware(
 app.include_router(ingest_router, prefix="/api/ingest", tags=["Ingest"])
 
 # 4. Then everything else
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+# 4. Then everything else
+api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    print("CRITICAL: GROQ_API_KEY is not set. Chat features will fail.")
+    client = None
+else:
+    print("GROQ_API_KEY detected. Initializing Groq client...")
+    client = Groq(api_key=api_key)
 
 class ChatRequest(BaseModel):
     session_id: str
