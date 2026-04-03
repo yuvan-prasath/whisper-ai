@@ -10,3 +10,4 @@ sentence-transformers
 pypdf
 requests
 huggingface-hub
+pysqlite3-binary

@@ -1,11 +1,6 @@
-FROM python:3.11-slim
+FROM python:3.11
 
 WORKDIR /app
-
-# Install system dependencies for ChromaDB (some need a C++ compiler)
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
 
 # HuggingFace Spaces requires user 1000
 RUN useradd -m -u 1000 user && \
@@ -17,7 +12,7 @@ ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
     PYTHONUNBUFFERED=1
 
-# Install dependencies first
+# Install dependencies
 COPY --chown=user requirements.txt .
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
