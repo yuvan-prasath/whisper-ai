@@ -1,5 +1,5 @@
 import os
-from dotenv import load_dotenv
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 from ingest import router as ingest_router
 from analytics import log_message, get_analytics, detect_escalation
 
-load_dotenv()
+
 
 
 app = FastAPI(title="Whisper API")
