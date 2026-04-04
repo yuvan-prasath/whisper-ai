@@ -806,7 +806,7 @@
   </div>
 
   <script>
-    const API = 'http://127.0.0.1:8000';
+    const API = window.location.origin;
     const ORG = 'neumann';
     const SID = 'whisper_' + Math.random().toString(36).substr(2, 8);
     const CHAR_SRC = document.getElementById('whisperChar').src;
