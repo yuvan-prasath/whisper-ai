@@ -5,12 +5,17 @@ WORKDIR /app
 # HuggingFace Spaces requires user 1000
 RUN useradd -m -u 1000 user && \
     mkdir -p /app/uploads && \
-    chown -R user:user /app
+    mkdir -p /app/static && \
+    mkdir -p /data/chroma_db && \
+    chown -R user:user /app && \
+    chown -R user:user /data
 
 USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    CHROMA_PATH=/data/chroma_db \
+    DB_PATH=/data/neumannbot.db
 
 # Install dependencies
 COPY --chown=user requirements.txt .
