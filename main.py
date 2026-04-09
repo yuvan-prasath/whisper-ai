@@ -22,7 +22,7 @@ from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel, EmailStr
 from groq import Groq
 
-from database import init_db, create_client, update_client_settings, get_collection_stats
+from database import init_db, create_client, update_client_settings
 from auth import require_api_key
 from rag import retrieve_context, get_collection_stats
 from ingest import router as ingest_router
