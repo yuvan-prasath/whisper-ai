@@ -1,0 +1,28 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+env/
+.venv/
+
+# Chroma vector DB - skip copying local database
+chroma_db/
+chroma_db_backup/
+
+# Local SQL db - skip copying to avoid locking/permission issues
+neumannbot.db
+
+# Uploads
+uploads/
+
+# Git
+.git/
+.gitignore
+
+# IDEs
+.vscode/
+.idea/
