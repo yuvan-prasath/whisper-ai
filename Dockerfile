@@ -6,16 +6,15 @@ WORKDIR /app
 RUN useradd -m -u 1000 user && \
     mkdir -p /app/uploads && \
     mkdir -p /app/static && \
-    mkdir -p /data/chroma_db && \
-    chown -R user:user /app && \
-    chown -R user:user /data
+    mkdir -p /app/chroma_db && \
+    chown -R user:user /app
 
 USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
     PYTHONUNBUFFERED=1 \
-    CHROMA_PATH=/data/chroma_db \
-    DB_PATH=/data/neumannbot.db
+    CHROMA_PATH=/app/chroma_db \
+    DB_PATH=/app/neumannbot.db
 
 # Install dependencies
 COPY --chown=user requirements.txt .
