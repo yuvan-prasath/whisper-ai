@@ -29,7 +29,20 @@ embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 # On Railway/local, default to ./chroma_db
 CHROMA_PATH = os.environ.get("CHROMA_PATH", "./chroma_db")
 
-chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
+try:
+    os.makedirs(CHROMA_PATH, exist_ok=True)
+    # Test writability just in case
+    test_file = os.path.join(CHROMA_PATH, "write_test.tmp")
+    with open(test_file, "w") as f:
+        f.write("ready")
+    if os.path.exists(test_file):
+        os.remove(test_file)
+    chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
+except Exception as e:
+    print(f"⚠️ Chroma permission error at {CHROMA_PATH}. Fallback to /tmp/chroma_db! Error: {e}")
+    CHROMA_PATH = "/tmp/chroma_db"
+    os.makedirs(CHROMA_PATH, exist_ok=True)
+    chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
 
 text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=400,

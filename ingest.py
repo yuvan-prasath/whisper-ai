@@ -64,8 +64,9 @@ async def upload_document(
         )
 
     # Save file temporarily
-    os.makedirs("uploads", exist_ok=True)
-    file_path = f"uploads/{org_id}_{file.filename}"
+    upload_dir = os.environ.get("UPLOAD_DIR", "uploads")
+    os.makedirs(upload_dir, exist_ok=True)
+    file_path = os.path.join(upload_dir, f"{org_id}_{file.filename}")
 
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)

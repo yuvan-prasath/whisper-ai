@@ -11,6 +11,19 @@ from datetime import datetime
 
 DB_PATH = os.environ.get("DB_PATH", "./neumannbot.db")
 
+try:
+    # Test if we can write to the DB directory
+    db_dir = os.path.dirname(os.path.abspath(DB_PATH))
+    os.makedirs(db_dir, exist_ok=True)
+    test_file = os.path.join(db_dir, "write_test.tmp")
+    with open(test_file, "w") as f:
+        f.write("ready")
+    if os.path.exists(test_file):
+        os.remove(test_file)
+except Exception as e:
+    print(f"⚠️ SQLite permission error at DB directory {db_dir}. Fallback to /tmp/neumannbot.db! Error: {e}")
+    DB_PATH = "/tmp/neumannbot.db"
+
 
 def get_connection():
     """Returns a SQLite connection with row factory enabled."""
