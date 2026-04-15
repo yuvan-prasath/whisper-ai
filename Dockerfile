@@ -1,20 +1,14 @@
 FROM python:3.11
 
-WORKDIR /app
-
 # HuggingFace Spaces requires user 1000
-RUN useradd -m -u 1000 user && \
-    mkdir -p /app/uploads && \
-    mkdir -p /app/static && \
-    mkdir -p /app/chroma_db && \
-    chown -R user:user /app
+RUN useradd -m -u 1000 user 
 
 USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH \
-    PYTHONUNBUFFERED=1 \
-    CHROMA_PATH=/app/chroma_db \
-    DB_PATH=/app/neumannbot.db
+    PYTHONUNBUFFERED=1
+
+WORKDIR $HOME/app
 
 # Install dependencies
 COPY --chown=user requirements.txt .
@@ -25,6 +19,10 @@ RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTr
 
 # Copy all app files
 COPY --chown=user . .
+
+# Set persistent paths into the writable home directory
+ENV CHROMA_PATH=$HOME/app/chroma_db \
+    DB_PATH=$HOME/app/neumannbot.db
 
 EXPOSE 7860
 
