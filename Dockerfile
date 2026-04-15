@@ -24,10 +24,8 @@ COPY --chown=user . .
 ENV CHROMA_PATH=$HOME/app/chroma_db \
     DB_PATH=$HOME/app/neumannbot.db
 
-# Ensure correct folder permissions inside the container for Chroma and SQLite
-RUN mkdir -p $HOME/app/chroma_db && \
-    mkdir -p $HOME/app/uploads && \
-    chown -R user:user $HOME/app/chroma_db $HOME/app/uploads
+# Ensure folder exists inside the container (they will be owned by 'user')
+RUN mkdir -p $HOME/app/chroma_db $HOME/app/uploads
 
 EXPOSE 7860
 
